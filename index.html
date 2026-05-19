@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Comercial - Impormaster Group (Skeuomorphic)</title>
+    
+    <!-- Tipografía: Avenir Next (Fallback a Nunito Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Avenir Next', 'Avenir Next Pro', 'Nunito Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#003BCC', 
+                            metal: '#c4c4c4',
+                            leather: '#1a1a1a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            overflow: hidden;
+            font-family: 'Avenir Next', 'Avenir Next Pro', 'Nunito Sans', sans-serif;
+        }
+
+        /* --- SKEUOMORPHIC TEXTURES & EFFECTS --- */
+        .bg-carbon {
+            background: 
+                radial-gradient(black 15%, transparent 16%) 0 0,
+                radial-gradient(black 15%, transparent 16%) 8px 8px,
+                radial-gradient(rgba(255,255,255,.05) 15%, transparent 20%) 0 1px,
+                radial-gradient(rgba(255,255,255,.05) 15%, transparent 20%) 8px 9px;
+            background-color: #1a1a1a;
+            background-size: 16px 16px;
+        }
+
+        .bg-brushed-metal {
+            background: linear-gradient(135deg, #e6e6e6 0%, #fefefe 15%, #e6e6e6 30%, #fefefe 50%, #e6e6e6 70%, #fefefe 85%, #e6e6e6 100%);
+            box-shadow: inset 0 2px 2px rgba(255,255,255,1), inset 0 -2px 5px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.6);
+            border: 1px solid #999;
+        }
+
+        .bg-dark-metal {
+            background: linear-gradient(180deg, #333 0%, #1a1a1a 100%);
+            box-shadow: inset 0 2px 1px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.7);
+            border: 1px solid #000;
+        }
+
+        .inset-screen {
+            background: #0a0a0a;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,1), 0 1px 0 rgba(255,255,255,0.1);
+            border: 2px solid #222;
+        }
+
+        .physical-btn {
+            background: linear-gradient(to bottom, #444, #222);
+            border: 1px solid #111;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 0 3px 5px rgba(0,0,0,0.6);
+            transition: all 0.1s;
+        }
+        .physical-btn:active {
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 1px 1px rgba(255,255,255,0.1);
+            transform: translateY(2px);
+        }
+
+        .text-engraved {
+            color: #555;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.9);
+        }
+
+        .text-embossed {
+            color: #ccc;
+            text-shadow: 0 -1px 1px #000, 0 1px 1px rgba(255,255,255,0.1);
+        }
+
+        .text-led {
+            color: #66b3ff;
+            text-shadow: 0 0 5px rgba(102, 179, 255, 0.5);
+        }
+
+        .slide-transition {
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .content-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: 0.4s;
+        }
+        .active .content-fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-carbon text-gray-200 selection:bg-brand-blue selection:text-white">
+
+    <!-- Navegación Fija -->
+    <div class="fixed top-0 left-0 w-full h-16 bg-dark-metal z-50 flex justify-between items-center px-8">
+        <div class="flex flex-col">
+            <span class="text-[9px] tracking-[0.3em] uppercase text-embossed font-bold mb-1">Presentado por</span>
+            <span class="text-sm uppercase font-black text-gray-300">Nicolás Rodríguez <span class="text-gray-600 px-1">|</span> Germán Vargas</span>
+        </div>
+        <div class="bg-[#0a0a0a] px-6 py-2 rounded shadow-[inset_0_2px_5px_rgba(0,0,0,0.8)] border border-gray-800">
+            <div id="slide-indicator" class="text-led font-mono text-xl font-bold tracking-widest">
+                01/12
+            </div>
+        </div>
+    </div>
+
+    <!-- Controles Flotantes -->
+    <div class="fixed bottom-8 right-8 z-50 flex gap-4">
+        <button onclick="prevSlide()" class="w-16 h-16 rounded-full physical-btn flex items-center justify-center text-gray-300 hover:text-white">
+            <i class="ph ph-caret-left text-2xl drop-shadow-md"></i>
+        </button>
+        <button onclick="nextSlide()" class="w-16 h-16 rounded-full physical-btn flex items-center justify-center text-gray-300 hover:text-white">
+            <i class="ph ph-caret-right text-2xl drop-shadow-md"></i>
+        </button>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div id="slide-container" class="flex w-[1200vw] h-screen slide-transition pt-16">
+
+        <!-- SLIDE 1: Portada -->
+        <section class="slide active w-screen h-full relative flex shrink-0 items-center justify-center bg-black">
+            <img src="assets/editorial_rim.png" alt="Luxury Rim" class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+
+            <div class="bg-brushed-metal p-12 md:p-16 rounded-lg max-w-3xl relative z-10 content-fade-in text-center mx-4">
+                <div class="absolute top-4 left-4 w-4 h-4 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 shadow-inner border border-gray-400 flex items-center justify-center"><div class="w-full h-[1px] bg-gray-700 rotate-45"></div></div>
+                <div class="absolute top-4 right-4 w-4 h-4 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 shadow-inner border border-gray-400 flex items-center justify-center"><div class="w-full h-[1px] bg-gray-700 -rotate-45"></div></div>
+                <div class="absolute bottom-4 left-4 w-4 h-4 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 shadow-inner border border-gray-400 flex items-center justify-center"><div class="w-full h-[1px] bg-gray-700 rotate-12"></div></div>
+                <div class="absolute bottom-4 right-4 w-4 h-4 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 shadow-inner border border-gray-400 flex items-center justify-center"><div class="w-full h-[1px] bg-gray-700 rotate-90"></div></div>
+
+                <span class="text-xs tracking-[0.3em] uppercase text-engraved font-bold mb-4 block">Propuesta Estratégica 360</span>
+                <h1 class="text-5xl md:text-6xl font-black italic text-engraved mb-8 leading-none">IMPORMASTER<br>GROUP S.A.S</h1>
+                
+                <div class="w-24 h-1 bg-gray-400 mx-auto mb-8 shadow-inner"></div>
+                
+                <h2 class="text-xl font-bold text-gray-700 mb-2">Evolución y Crecimiento Digital</h2>
+                <p class="text-sm font-bold text-gray-500 uppercase tracking-widest">Confidencial - 2025</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Oportunidad Digital -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-carbon px-16 md:px-24">
+            <div class="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center content-fade-in">
+                <div>
+                    <span class="text-xs tracking-widest uppercase text-embossed font-bold mb-4 block">Análisis de Mercado</span>
+                    <h2 class="text-5xl font-black italic text-white mb-8 drop-shadow-lg">La Oportunidad <br><span class="text-brand-blue">Digital.</span></h2>
+                    
+                    <div class="bg-dark-metal p-8 rounded border-l-4 border-brand-blue">
+                        <p class="text-gray-300 leading-relaxed font-medium text-lg">
+                            La oportunidad para Impormaster Group S.A.S está en capturar una parte de la demanda que hoy ya existe en internet, pero que no necesariamente encuentra una propuesta digital fuerte y bien estructurada.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="inset-screen p-8 rounded-lg relative">
+                    <div class="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+                    
+                    <h3 class="text-led font-mono text-sm tracking-widest mb-6 border-b border-gray-800 pb-2">// EVOLUCIÓN ECOMMERCE AUTOMOTRIZ</h3>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        El sector automotriz en ecommerce está evolucionando hacia experiencias más personalizadas, con <strong>buscadores por compatibilidad</strong>, catálogos inteligentes, automatización comercial, contenido técnico y presencia multicanal.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm mt-4">
+                        Mercados y plataformas líderes del sector están impulsando herramientas de compatibilidad por modelo de vehículo, expansión logística y activaciones <strong>O2O (Online to Offline)</strong>, lo que confirma que el comprador automotriz espera cada vez más precisión, rapidez y facilidad de compra.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: El Entorno 2025 -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-carbon">
+            <img src="assets/editorial_garage.png" alt="Garage" class="absolute inset-0 w-full h-full object-cover opacity-20">
+            
+            <div class="container mx-auto px-16 md:px-24 relative z-10 content-fade-in w-full max-w-5xl">
+                <div class="bg-brushed-metal p-12 shadow-2xl relative rounded-sm">
+                    <h2 class="text-3xl font-black italic text-engraved mb-6">El Entorno Digital de 2025</h2>
+                    <p class="text-gray-700 leading-relaxed font-medium mb-6 text-lg">
+                        Exige que las marcas no dependan solo de anuncios o redes sociales, sino que desarrollen activos propios: sitio web, ecommerce, posicionamiento SEO, base de datos, automatización y presencia en resultados de motores de búsqueda tradicionales y generativos (IA).
+                    </p>
+                    
+                    <div class="inset-screen p-6 mt-8">
+                        <p class="text-led font-mono text-sm leading-relaxed">
+                            En B2B y ecommerce técnico, la integración entre contenidos, catálogo, inventario y canales de contacto se volvió una condición básica para operar con eficiencia. Esto es especialmente importante para una empresa de rines y llantas, donde la compra suele requerir información de compatibilidad, asesoría, confianza en la marca y rapidez de respuesta.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: Objetivo General -->
+        <section class="slide w-screen h-full relative flex items-center justify-center shrink-0 bg-carbon">
+            <div class="content-fade-in text-center max-w-4xl px-8">
+                <div class="inline-block bg-dark-metal px-6 py-2 rounded-full mb-8 border border-gray-700 shadow-lg">
+                    <span class="text-xs font-bold tracking-widest text-brand-blue uppercase">La Misión</span>
+                </div>
+                
+                <h2 class="text-4xl md:text-5xl font-black italic text-white mb-10 leading-tight text-embossed">
+                    "Diseñar e implementar una estrategia digital 360 para Impormaster Group S.A.S."
+                </h2>
+                
+                <p class="text-xl text-gray-400 font-medium leading-relaxed max-w-3xl mx-auto">
+                    Que permita construir desde cero su presencia online, desarrollar activos comerciales propios, aumentar visibilidad orgánica, fortalecer autoridad de marca, generar comunidad y convertir el entorno digital en un canal real de generación de oportunidades y ventas.
+                </p>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: Objetivos Específicos -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-carbon px-16 md:px-24">
+            <div class="w-full content-fade-in">
+                <h2 class="text-4xl font-black italic text-embossed mb-12 border-b-2 border-dark-metal pb-4">Objetivos Específicos</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-dark-metal p-6 rounded-sm flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full inset-screen flex items-center justify-center shrink-0 text-led font-bold">1</div>
+                        <p class="text-gray-300 font-medium text-sm leading-relaxed">Crear la arquitectura digital base de la marca mediante una landing page o sitio web comercial con enfoque en conversión.</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded-sm flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full inset-screen flex items-center justify-center shrink-0 text-led font-bold">2</div>
+                        <p class="text-gray-300 font-medium text-sm leading-relaxed">Desarrollar un ecommerce funcional que permita exhibir productos, captar leads o habilitar ventas directas.</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded-sm flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full inset-screen flex items-center justify-center shrink-0 text-led font-bold">3</div>
+                        <p class="text-gray-300 font-medium text-sm leading-relaxed">Implementar una estrategia de SEO orgánico para posicionar la marca en búsquedas transaccionales e informativas.</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded-sm flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full inset-screen flex items-center justify-center shrink-0 text-led font-bold">4</div>
+                        <p class="text-gray-300 font-medium text-sm leading-relaxed">Construir y administrar redes sociales como canales de autoridad, alcance y comunidad.</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded-sm flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full inset-screen flex items-center justify-center shrink-0 text-led font-bold">5</div>
+                        <p class="text-gray-300 font-medium text-sm leading-relaxed">Desarrollar una base de datos propia para seguimiento comercial, remarketing y fidelización.</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded-sm flex items-start gap-4 border border-brand-blue/30">
+                        <div class="w-10 h-10 rounded-full bg-brand-blue shadow-[inset_0_2px_5px_rgba(255,255,255,0.4)] flex items-center justify-center shrink-0 text-white font-bold">6</div>
+                        <p class="text-white font-bold text-sm leading-relaxed">Definir presencia digital apta para IA y GEO, visible en motores de respuesta y LLMs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: Línea de Tiempo -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-[#0a0a0a]">
+            <img src="assets/editorial_digital.png" alt="Digital" class="absolute inset-0 w-full h-full object-cover opacity-10">
+
+            <div class="container mx-auto px-16 relative z-10 content-fade-in w-full max-w-6xl">
+                <div class="mb-10">
+                    <span class="text-xs font-bold tracking-widest text-brand-blue uppercase mb-2 block">Crecimiento Progresivo</span>
+                    <h2 class="text-4xl font-black italic text-white">Roadmap de Ejecución (6 - 12 Meses)</h2>
+                    <p class="text-gray-400 mt-2 font-medium">Establecemos un modelo de trabajo continuo orientado a resultados reales.</p>
+                </div>
+
+                <div class="bg-dark-metal p-8 rounded-lg relative overflow-hidden mb-6">
+                    <div class="absolute top-1/2 left-8 right-8 h-4 -translate-y-1/2 inset-screen rounded-full"></div>
+                    
+                    <div class="grid grid-cols-3 gap-8 relative z-10">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-brushed-metal border-4 border-[#111] shadow-[0_5px_10px_rgba(0,0,0,0.8)] mb-6 flex items-center justify-center z-10 relative">
+                                <div class="w-3 h-3 rounded-full bg-red-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5),_0_0_8px_red]"></div>
+                            </div>
+                            <h3 class="text-white font-bold text-xl mb-2">Mes 1</h3>
+                            <div class="bg-[#111] p-4 rounded shadow-inner border border-gray-800 w-full h-full">
+                                <p class="text-sm text-gray-400 font-medium">Lanzamiento oficial del Ecosistema Base (Web/Ecommerce).</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-brushed-metal border-4 border-[#111] shadow-[0_5px_10px_rgba(0,0,0,0.8)] mb-6 flex items-center justify-center z-10 relative">
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5),_0_0_8px_yellow]"></div>
+                            </div>
+                            <h3 class="text-white font-bold text-xl mb-2">Mes 3</h3>
+                            <div class="bg-[#111] p-4 rounded shadow-inner border border-gray-800 w-full h-full">
+                                <p class="text-sm text-gray-400 font-medium">Primeros Leads Orgánicos, Pauta inicial, páginas sociales y primeros seguidores.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-brushed-metal border-4 border-[#111] shadow-[0_5px_10px_rgba(0,0,0,0.8)] mb-6 flex items-center justify-center z-10 relative">
+                                <div class="w-3 h-3 rounded-full bg-green-500 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5),_0_0_12px_#0f0]"></div>
+                            </div>
+                            <h3 class="text-white font-bold text-xl mb-2">Mes 6+</h3>
+                            <div class="bg-[#111] p-4 rounded shadow-inner border border-gray-800 w-full h-full">
+                                <p class="text-sm text-gray-400 font-medium">Maduración SEO, Posicionamiento en Maps y escalabilidad constante.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Asterisco Aclaratorio -->
+                <p class="text-xs text-brand-blue/80 italic font-medium">* Los tiempos de ejecución y proyección de resultados dependen estrictamente del nivel de inversión y plan seleccionado.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: Fase Base -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-carbon px-16 md:px-24">
+            <div class="w-full flex flex-col md:flex-row gap-16 items-center content-fade-in">
+                <div class="flex-1">
+                    <span class="text-[10px] uppercase tracking-widest text-brand-blue font-bold mb-2 block">Paso 01 (Obligatorio)</span>
+                    <h2 class="text-4xl font-black italic text-embossed mb-4">Fase Base: <br>Fundación Comercial</h2>
+                    <p class="text-gray-400 font-medium mb-8">La creación de este activo es el requisito fundamental para operar en digital. Es el núcleo de la estrategia 360.</p>
+                    
+                    <div class="bg-brushed-metal inline-block p-6 rounded shadow-xl">
+                        <div class="text-3xl font-black text-engraved tracking-tighter">$4.500.000 <span class="text-sm text-gray-500">COP</span></div>
+                        <div class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mt-1">Setup Único de Lanzamiento</div>
+                    </div>
+                </div>
+                
+                <div class="flex-1 bg-dark-metal p-8 rounded border border-gray-700 shadow-2xl">
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-brand-blue shadow-[0_0_5px_#003BCC]"></div><span class="text-sm font-medium">Landing Page / Ecommerce Premium</span></li>
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-brand-blue shadow-[0_0_5px_#003BCC]"></div><span class="text-sm font-medium">Catálogo B2C (Preparado para B2B futuro)</span></li>
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-brand-blue shadow-[0_0_5px_#003BCC]"></div><span class="text-sm font-medium">Conexión a WhatsApp & CRM</span></li>
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-brand-blue shadow-[0_0_5px_#003BCC]"></div><span class="text-sm font-medium">Implementación GA4 y BD</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: Retainer 1 -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-carbon px-16 md:px-24">
+            <div class="w-full flex flex-col md:flex-row gap-16 items-center content-fade-in">
+                <div class="flex-1">
+                    <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-2 block">Paso 02 (Operación Mínima)</span>
+                    <h2 class="text-4xl font-black italic text-embossed mb-4">Retainer Nivel 1: <br>Crecimiento & SEO</h2>
+                    <p class="text-gray-400 font-medium mb-6">Un canal web inactivo muere rápidamente. Esta póliza administra, mantiene y posiciona tu vitrina en Google.</p>
+                    
+                    <div class="bg-yellow-500/10 border border-yellow-500/30 p-3 rounded mb-8 inline-block">
+                        <p class="text-xs text-yellow-500 font-bold italic">* Requiere ejecución previa de Fase Base (Setup).</p>
+                    </div>
+                    <br>
+                    
+                    <div class="bg-brushed-metal inline-block p-6 rounded shadow-xl">
+                        <div class="text-3xl font-black text-engraved tracking-tighter">$3.800.000 <span class="text-sm text-gray-500">COP / Mes</span></div>
+                        <div class="text-[10px] font-bold tracking-widest text-gray-600 uppercase mt-1">Gestión Mensual</div>
+                    </div>
+                </div>
+                
+                <div class="flex-1 bg-dark-metal p-8 rounded border border-gray-700 shadow-2xl">
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-gray-500"></div><span class="text-sm font-medium">Soporte Técnico Especializado Continuo</span></li>
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-gray-500"></div><span class="text-sm font-medium">Optimización SEO Transaccional</span></li>
+                        <li class="flex items-center gap-4"><div class="w-2 h-2 rounded-full bg-gray-500"></div><span class="text-sm font-medium">Creación de Páginas de Compatibilidad</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 9: Retainer 2 -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-[#00174d]">
+            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+            <div class="w-full flex flex-col md:flex-row gap-16 items-center content-fade-in px-16 md:px-24 relative z-10">
+                <div class="flex-1">
+                    <div class="bg-yellow-500 text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 inline-block rounded shadow mb-4">Escala Recomendada</div>
+                    <h2 class="text-4xl md:text-5xl font-black italic text-white mb-4 drop-shadow-md">Retainer Nivel 2: <br>Dominio Total 360</h2>
+                    <p class="text-blue-200 font-medium mb-6 max-w-md">Llevamos la marca a dominar el entorno visual de redes, mapas locales y motores de Inteligencia Artificial (LLMs).</p>
+                    
+                    <div class="bg-white/10 border border-white/30 p-3 rounded mb-8 inline-block">
+                        <p class="text-xs text-white font-bold italic">* Requiere ejecución previa de Fase Base (Setup).</p>
+                    </div>
+                    <br>
+
+                    <div class="bg-gradient-to-b from-white to-gray-300 inline-block p-6 rounded shadow-[0_10px_30px_rgba(0,0,0,0.8)] border-2 border-white">
+                        <div class="text-3xl font-black text-blue-900 tracking-tighter drop-shadow-sm">$5.000.000 <span class="text-sm text-gray-500">COP / Mes</span></div>
+                        <div class="text-[10px] font-bold tracking-widest text-brand-blue uppercase mt-1">Estrategia Integral Operativa</div>
+                    </div>
+                </div>
+                
+                <div class="flex-1 bg-[#000a24] p-10 rounded border border-blue-500/30 shadow-[inset_0_2px_20px_rgba(0,59,204,0.3),_0_20px_40px_rgba(0,0,0,0.8)]">
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded bg-brand-blue border border-white/20 shadow-inner flex items-center justify-center shrink-0 mt-1"><i class="ph ph-check text-white text-xs"></i></div>
+                            <div>
+                                <strong class="block text-white">Gestión Integral de Redes y Comunidad</strong>
+                                <span class="text-sm text-blue-300/80">Producción visual y generación de confianza.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded bg-brand-blue border border-white/20 shadow-inner flex items-center justify-center shrink-0 mt-1"><i class="ph ph-check text-white text-xs"></i></div>
+                            <div>
+                                <strong class="block text-white">Optimización GEO (Google Maps)</strong>
+                                <span class="text-sm text-blue-300/80">Captura de demanda O2O (Online to Offline) a la tienda.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-6 h-6 rounded bg-brand-blue border border-white/20 shadow-inner flex items-center justify-center shrink-0 mt-1"><i class="ph ph-check text-white text-xs"></i></div>
+                            <div>
+                                <strong class="block text-white">Presencia en Entornos de IA (LLMs)</strong>
+                                <span class="text-sm text-blue-300/80">Estructuración de datos para ChatGPT y Perplexity.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 10: Resumen de Inversión -->
+        <section class="slide w-screen h-full relative flex items-center justify-center shrink-0 bg-carbon">
+            <div class="content-fade-in text-center w-full max-w-5xl px-8">
+                <h2 class="text-4xl font-black italic text-embossed mb-10 border-b border-gray-800 pb-4">Resumen de Inversión Estratégica</h2>
+                
+                <div class="bg-dark-metal rounded-lg border border-gray-700 shadow-2xl p-8">
+                    <!-- Setup Obligatorio -->
+                    <div class="bg-brand-blue/10 border border-brand-blue p-6 rounded mb-4 flex justify-between items-center">
+                        <div class="text-left">
+                            <span class="text-[10px] text-brand-blue font-bold uppercase tracking-widest block mb-1">Obligatorio: Lanzamiento</span>
+                            <h3 class="text-2xl font-bold text-white">Setup Fase Base (Web/Ecommerce)</h3>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-black text-white">$4.500.000 <span class="text-xs text-gray-400">COP</span></div>
+                            <span class="text-[9px] text-gray-500 uppercase">Pago Único Inicial</span>
+                        </div>
+                    </div>
+
+                    <!-- Signo Más Metálico -->
+                    <div class="w-10 h-10 mx-auto rounded-full bg-brushed-metal flex items-center justify-center shadow-lg z-10 relative my-[-20px] text-black font-black text-xl border-4 border-dark-metal">
+                        +
+                    </div>
+
+                    <!-- Retainers (Opción) -->
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="bg-[#111] border border-gray-800 p-6 rounded text-left opacity-80 hover:opacity-100 transition-opacity">
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Elección 1</span>
+                            <h3 class="text-xl font-bold text-gray-300 mb-4">Retainer Nivel 1: Crecimiento</h3>
+                            <div class="text-xl font-black text-white border-t border-gray-800 pt-4">$3.800.000 <span class="text-[10px] text-gray-500">COP/Mes</span></div>
+                        </div>
+                        <div class="bg-[#111] border border-blue-900 p-6 rounded text-left relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,59,204,0.1)]">
+                            <div class="absolute top-0 right-0 bg-brand-blue text-white text-[8px] font-bold px-2 py-1 uppercase">Recomendado</div>
+                            <span class="text-[10px] text-brand-blue font-bold uppercase tracking-widest block mb-1">Elección 2</span>
+                            <h3 class="text-xl font-bold text-white mb-4">Retainer Nivel 2: Dominio 360</h3>
+                            <div class="text-xl font-black text-white border-t border-gray-800 pt-4">$5.000.000 <span class="text-[10px] text-gray-500">COP/Mes</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vigencia Placa -->
+                <div class="mt-8 mx-auto bg-brushed-metal inline-block px-8 py-3 rounded-full border border-gray-400 shadow-[0_5px_15px_rgba(0,0,0,0.8)]">
+                    <span class="text-xs font-bold text-black uppercase tracking-widest flex items-center gap-2">
+                        <i class="ph ph-clock"></i> Tiempo de Validez de la Propuesta: 30 Días
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 11: Preguntas Estratégicas -->
+        <section class="slide w-screen h-full relative flex items-center shrink-0 bg-carbon px-16 md:px-24">
+            <div class="w-full content-fade-in max-w-4xl mx-auto text-center">
+                <span class="text-xs tracking-widest uppercase text-brand-blue font-bold mb-4 block">Cierre de Fricción</span>
+                <h2 class="text-4xl font-black italic text-embossed mb-12">Conversación Estratégica</h2>
+                
+                <div class="space-y-6 text-left">
+                    <div class="bg-dark-metal p-6 rounded border-l-4 border-gray-600 shadow-md">
+                        <p class="text-xl font-medium text-gray-300 italic">"¿Estamos listos operativa y financieramente para dejar de depender de marketplaces de terceros y construir nuestro propio activo?"</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded border-l-4 border-gray-600 shadow-md">
+                        <p class="text-xl font-medium text-gray-300 italic">"Si la estrategia digital multiplica por tres la cantidad de leads en 6 meses, ¿cuál es nuestra capacidad real de atención y despacho en sede?"</p>
+                    </div>
+                    <div class="bg-dark-metal p-6 rounded border-l-4 border-brand-blue shadow-md">
+                        <p class="text-xl font-medium text-white italic">"¿Tenemos el inventario actual de rines y llantas estructurado en una base de datos limpia para iniciar el empalme tecnológico mañana mismo?"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 12: Próximos Pasos -->
+        <section class="slide w-screen h-full relative flex items-center justify-center shrink-0 bg-[#000a24]">
+            <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==')]"></div>
+            
+            <div class="content-fade-in text-center max-w-2xl px-8 relative z-10">
+                <h2 class="text-5xl md:text-6xl font-black italic text-white mb-6 drop-shadow-lg">Activación Inmediata.</h2>
+                <p class="text-blue-200 font-medium mb-12">Proceso libre de fricción para iniciar operaciones de inmediato.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div class="inset-screen p-6 rounded border border-blue-900/50">
+                        <div class="text-led font-mono text-2xl font-bold mb-2">01</div>
+                        <h3 class="text-white font-bold mb-1">Aprobación</h3>
+                        <p class="text-xs text-blue-300/80">Selección del Nivel Operativo Mensual.</p>
+                    </div>
+                    <div class="inset-screen p-6 rounded border border-blue-900/50">
+                        <div class="text-led font-mono text-2xl font-bold mb-2">02</div>
+                        <h3 class="text-white font-bold mb-1">Kickoff</h3>
+                        <p class="text-xs text-blue-300/80">Reunión de 30 min para transferir inventarios.</p>
+                    </div>
+                    <div class="inset-screen p-6 rounded border border-b-2 border-brand-blue">
+                        <div class="text-led font-mono text-2xl font-bold mb-2">03</div>
+                        <h3 class="text-brand-blue font-bold mb-1">Día Cero</h3>
+                        <p class="text-xs text-blue-300/80">Inefable Lab inicia arquitectura y montaje.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const container = document.getElementById('slide-container');
+        const indicator = document.getElementById('slide-indicator');
+
+        function updateSlide() {
+            container.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            const fmtCurrent = String(currentSlide + 1).padStart(2, '0');
+            const fmtTotal = String(totalSlides).padStart(2, '0');
+            indicator.textContent = `${fmtCurrent}/${fmtTotal}`;
+            
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide() { if(currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+        function prevSlide() { if(currentSlide > 0) { currentSlide--; updateSlide(); } }
+
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); nextSlide(); }
+            if(e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prevSlide(); }
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
